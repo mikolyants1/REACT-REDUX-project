@@ -1,14 +1,15 @@
-import { useState ,useRef, useEffect} from 'react'
+import { useState,useRef,useEffect} from 'react'
 import {useDispatch,useSelector} from 'react-redux'
 import { chan,add,del } from './slice.jsx'
 function App() {
 const mass=useSelector((store)=>store.task.mass)
 const dispatch=useDispatch()
 const lines=[1,2,3,4,5,6,7,8]
+const {querySelector,querySelectorAll}=document
 const [todo,setTodo]=useState('')
 const ref=useRef()
 useEffect(()=>{
-const task=document.querySelectorAll('.todo')
+const task=querySelectorAll('.todo')
 if (mass.length!==0) {
   task.forEach((item,i)=>{
     item.style.left=`${mass[i].x-item.offsetWidth}px`
@@ -17,12 +18,12 @@ if (mass.length!==0) {
 }
 },[])
  const set=()=>{
-  const {style:{height}}=document.querySelector('.desk1')
+  const {style:{height}}=querySelector('.desk1')
   dispatch(add({name:todo,x:300,y:height}))
   }
   const move=(e)=>{
     const {current:n}=ref
-    const task=document.querySelectorAll('.todo')
+    const task=querySelectorAll('.todo')
     task.forEach((item)=>{
     if (item.hasAttribute('id')) {
       item.style.left=`${e.pageX-n.offsetWidth*3}px`;
@@ -31,11 +32,11 @@ if (mass.length!==0) {
     })
   }
   const attr=(i)=>{
-    const todo=document.querySelectorAll('.todo')
+    const todo=querySelectorAll('.todo')
     const right=todo[i].hasAttribute('id')
     const w=todo[i].offsetWidth
     const min=w>150?-40:w/2
-    const main=document.querySelectorAll('.main')
+    const main=querySelectorAll('.main')
     const text=main[i].textContent
     const {top,left}=todo[i].getBoundingClientRect()
     if (right) {
