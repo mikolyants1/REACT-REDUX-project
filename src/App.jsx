@@ -11,14 +11,13 @@ const [state,move]=useReducer(reducer,0)
 const ref=useRef()
 useEffect(()=>move({type:width}),[width])
 useEffect(()=>{
-const {current}=ref
-current.style=`border-top:2px solid black;
-height: 17%;width: 100%;display: flex`
+ref.current.style=`height: 17%;width: 100%;
+display: flex;border-top:2px solid black;`
 const task=document.querySelectorAll('.todo')
 if (mass.length!==0) {
   task.forEach((item,i)=>{
-    item.style.left=`${mass[i].x-item.offsetWidth}px`
-    item.style.top=`${mass[i].y}px`
+   item.style.left=`${mass[i].x-item.offsetWidth}px`
+   item.style.top=`${mass[i].y}px`
   })
  }
 },[])
@@ -29,8 +28,8 @@ function reducer(state,{type}){
   else return state
 }
  const set=()=>{
-  const {style:{height}}=document.querySelector('.desk1')
-  dispatch(add({name:todo,x:300,y:height}))
+  const {style}=document.querySelector('.desk1')
+  dispatch(add({name:todo,x:300,y:style.height}))
   }
   const mouseMove=(e)=>{
     const n=document.querySelectorAll('span')
@@ -44,12 +43,11 @@ function reducer(state,{type}){
   }
   const attr=(i)=>{
     const todo=document.querySelectorAll('.todo')
-    const right=todo[i].hasAttribute('id')
-    setWidth(todo[i].offsetWidth)
     const main=document.querySelectorAll('.main')
-    const text=main[i].textContent
     const {top,left}=todo[i].getBoundingClientRect()
-    if (right) {
+    const text=main[i].textContent
+    setWidth(todo[i].offsetWidth)
+    if (todo[i].hasAttribute('id')) {
       dispatch(chan({name:text,x:left-state,y:top-5,i:i}))
       todo[i].style.zIndex=10
       todo[i].removeAttribute('id','s')
