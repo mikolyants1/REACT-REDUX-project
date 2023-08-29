@@ -1,15 +1,15 @@
-import {createContext,useState,useEffect} from "react";
+import {createContext,useState} from "react";
 import App from './App.jsx'
 import { store,catched } from './store.jsx'
 import { PersistGate } from 'redux-persist/integration/react'
 import { Provider } from 'react-redux'
-
+const root=document.querySelector(':root')
  const theme={
     one:'white',
     two:'black'
   }
 export const Context=createContext(theme.two)
-export default function Home({root}){
+export default function Home(){
 const {one,two}=theme
 const [state,setState]=useState(two)
 const change=()=>{
