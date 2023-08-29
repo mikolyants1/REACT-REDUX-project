@@ -1,7 +1,7 @@
 import {useState,useRef,useEffect,useReducer,useContext} from 'react'
 import {useDispatch,useSelector} from 'react-redux'
 import {chan,add,del} from './slice.jsx'
-import { Context } from './home.jsx'
+import {Context} from './home.jsx'
 function App({change,root,theme,val}) {
 const mass=useSelector((store)=>store.task.mass)
 const dispatch=useDispatch()
@@ -11,6 +11,7 @@ const [width,setWidth]=useState(0)
 const [state,move]=useReducer(reducer,0)
 const context=useContext(Context)
 const ref=useRef()
+const ref1=useRef()
 useEffect(()=>move({type:width}),[width])
 useEffect(()=>{
 ref.current.style=`height: 17%;width: 100%;
@@ -42,6 +43,7 @@ function reducer(state,{type}){
 const set=()=>{
   const {style}=document.querySelector('.desk1')
   dispatch(add({name:todo,x:300,y:style.height}))
+  ref1.current.value=''
 }
 const mouse=(e)=>{
   const n=document.querySelectorAll('span')
@@ -85,7 +87,7 @@ height:'100%'
            <div ref={ref}>
              <div className='set'>
                <div className='setInp'>
-                 <textarea type="text"
+                 <textarea type="text" ref={ref1}
                   onChange={(e)=>setTodo(e.target.value)} />
                </div>
                <div className='setBut'>
