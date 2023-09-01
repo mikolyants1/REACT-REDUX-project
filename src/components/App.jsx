@@ -1,7 +1,7 @@
 import {useState,useRef,useEffect,useReducer,useContext} from 'react'
 import {useDispatch,useSelector} from 'react-redux'
-import {chan,add,del} from './slice.jsx'
-import {Context} from './home.jsx'
+import {chan,add,del} from '../store/slice'
+import {Context} from './theme.jsx'
 function App({change,root,theme,val}) {
 const mass=useSelector((store)=>store.task.mass)
 const dispatch=useDispatch()
@@ -33,9 +33,9 @@ useEffect(()=>{
   s3.color=`${context}`
   s2.boxShadow=`0px 1px 10px 0px ${context==one?two:one}`
   s3.textShadow=`${context==one?'rgb(210,210,210)':one} 1px 0px 10px`
-},[val])
+ },[val])
 function reducer(state,{type}){
-  if (type<120) return type/2
+  if (type<120) return type/1.8
   else if (type>120&&type<150) return type/7
   else if (type>150) return -40
   else return state
@@ -70,9 +70,9 @@ const attr=(i)=>{
     todo[i].setAttribute('id','s')
     }
 }
-const style={
-width:'100%',
-height:'100%'
+  const style={
+     width:'100%',
+     height:'100%'
   }
   return <div id='wrapper' 
            onMouseMove={mouse}>

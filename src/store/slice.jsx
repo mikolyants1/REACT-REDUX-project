@@ -1,7 +1,8 @@
 import {createSlice} from '@reduxjs/toolkit'
 const initialState={
     name:'',
-    mass:[]
+    mass:[],
+    theme:'black'
 }
 const slice=createSlice({
     name:'desk',
@@ -19,7 +20,10 @@ const slice=createSlice({
         del:(state,action)=>{
           state.mass.splice(action.payload,1)
         },
+        set:(state,action)=>{
+          state.theme=action.payload
+        }
     }
 })
-export const {add,chan,del}=slice.actions
+export const {add,chan,del,set}=slice.actions
 export default slice.reducer
