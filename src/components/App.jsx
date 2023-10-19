@@ -1,21 +1,22 @@
-import {useState,useRef,useEffect,useReducer,useContext} from 'react'
+import {useState,useRef,useEffect,useReducer,useContext,useId} from 'react'
 import {useDispatch,useSelector} from 'react-redux'
 import {chan,add,del} from '../store/slice'
 import {Context} from './theme.jsx'
-function App({change,root,theme,val}) {
+function App({root}) {
 const mass=useSelector((store)=>store.task.mass)
+const lines=Array.from(Array(8).keys())
 const dispatch=useDispatch()
-const lines=[1,2,3,4,5,6,7,8]
 const [todo,setTodo]=useState('')
 const [width,setWidth]=useState(0)
 const [state,move]=useReducer(reducer,0)
-const context=useContext(Context)
+const {con,change}=useContext(Context)
+const id=useId()
 const ref=useRef()
 const ref1=useRef()
 useEffect(()=>move({type:width}),[width])
 useEffect(()=>{
-ref.current.style=`height: 17%;width: 100%;
-display: flex;border-top:2px solid black;`
+ref.current.style=`height:17%;width: 100%;
+display:flex;border-top:2px solid black;`
 const task=document.querySelectorAll('.todo')
 if (mass.length!==0) {
   task.forEach((item,i)=>{
@@ -27,13 +28,12 @@ if (mass.length!==0) {
 useEffect(()=>{
   const cur=document.querySelector('.current')
   const wrap=document.getElementById('wrapper')
-  const {one,two}=theme
-  const [{style:s1},{style:s2},{style:s3}]=[root,wrap,cur]
-  s1.backgroundColor=`${context}`
-  s3.color=`${context}`
-  s2.boxShadow=`0px 1px 10px 0px ${context==one?two:one}`
-  s3.textShadow=`${context==one?'rgb(210,210,210)':one} 1px 0px 10px`
- },[val])
+  const [s1,s2,s3]=getStyle(root,wrap,cur)
+  s1.backgroundColor=`${con}`
+  s3.color=`${con}`
+  s2.boxShadow=`0px 1px 10px 0px ${con=='white'?'black':'white'}`
+  s3.textShadow=`${con=='white'?'rgb(210,210,210)':'white'} 1px 0px 10px`
+ },[con])
 function reducer(state,{type}){
   if (type<120) return type/1.8
   else if (type>120&&type<150) return type/7
@@ -45,6 +45,9 @@ const set=()=>{
   dispatch(add({name:todo,x:300,y:style.height}))
   ref1.current.value=''
 }
+const getStyle=(...arr)=>{
+  return arr.map(({style})=>style)
+ }
 const mouse=(e)=>{
   const n=document.querySelectorAll('span')
   const task=document.querySelectorAll('.todo')
@@ -55,6 +58,14 @@ const mouse=(e)=>{
     }
   })
 }
+const addItem=(e)=>{
+  setTodo(e.target.value)
+}
+const enter=(e)=>{
+ if (e.key=='Enter'){
+  setTodo(e.target.value)
+ }
+}
 const attr=(i)=>{
   const todo=document.querySelectorAll('.todo')
   const main=document.querySelectorAll('.main')
@@ -64,10 +75,10 @@ const attr=(i)=>{
   if (todo[i].hasAttribute('id')) {
     dispatch(chan({name:text,x:left-state,y:top-5,i:i}))
     todo[i].style.zIndex=10
-    todo[i].removeAttribute('id','s')
+    todo[i].removeAttribute('id',id)
   }else{
     todo[i].style.zIndex=100
-    todo[i].setAttribute('id','s')
+    todo[i].setAttribute('id',id)
     }
 }
   const style={
@@ -81,14 +92,17 @@ const attr=(i)=>{
                 <h2>Task Desk</h2>
              </div>
              <div className='deskBoard'>
-               {lines.map(i=><div key={i} id='line'></div>)}
+               {lines.map(i=><div key={i} id='line' />)}
              </div>
            </div>
            <div ref={ref}>
              <div className='set'>
                <div className='setInp'>
-                 <textarea type="text" ref={ref1}
-                  onChange={(e)=>setTodo(e.target.value)} />
+                 <textarea type="text"
+                  onChange={addItem}
+                  onKeyUp={enter} 
+                  ref={ref1}
+                  />
                </div>
                <div className='setBut'>
                  <button style={style}
@@ -99,7 +113,8 @@ const attr=(i)=>{
              </div>
              <div className='get'>
                {mass.map(({name},i)=>(
-                <div className='todo' key={i}>
+                <div key={i}
+                 className='todo'>
                   <div className='title'>
                     <li onClick={()=>attr(i)}>
                       <span>Task {i+1}</span>
@@ -123,7 +138,7 @@ const attr=(i)=>{
                  Current Theme
                </div>
                <div className='current'>
-                {context}
+                 {con}
                </div>
                <div className='chanDiv'>
                  <button className='chanBut'
@@ -135,5 +150,4 @@ const attr=(i)=>{
            </div>
          </div>
   }
-
 export default App

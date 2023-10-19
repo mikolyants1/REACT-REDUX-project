@@ -9,16 +9,23 @@ const slice=createSlice({
     initialState,
     reducers:{
         add:(state,action)=>{
-           const {name,x,y}=action.payload
-           state.mass.push({name:name,x:x,y:y})
+          const {name,x,y}=action.payload
+          state.mass=[
+            ...state.mass,
+            {name:name,x:x,y:y}
+          ]
         },
         chan:(state,action)=>{
-           const {name,x,y,i}=action.payload
-           const obj={name:name,x:x,y:y}
-           state.mass.splice(i,1,obj)
+          const {name,x,y,i}=action.payload
+          const left=state.mass.slice(0,i)
+          const right=state.mass.slice(i+1)
+          const obj={name:name,x:x,y:y}
+          state.mass=[...left,obj,...right]
         },
-        del:(state,action)=>{
-          state.mass.splice(action.payload,1)
+        del:(state,{payload})=>{
+          const newMass=state.mass
+          .filter((_,i)=>i!==payload)
+          state.mass=[...newMass]
         },
         set:(state,action)=>{
           state.theme=action.payload
