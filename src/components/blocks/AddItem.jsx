@@ -17,9 +17,15 @@ function AddItem(){
     }));
     ref.current.value = "";
   };
+  
+  const keyHandler = (e) => {
+    if (e.key === "Enter"){
+      setNewTodo();
+    };
+  };
 
   const addItem = (e) => {
-    setTodo(e.target.value)
+    setTodo(e.target.value);
   };
 
    const style = {
@@ -36,7 +42,8 @@ function AddItem(){
           </div>
           <div className='setBut'>
             <button style={style}
-             onClick={setNewTodo}>
+             onClick={setNewTodo}
+             onKeyUp={keyHandler}>
                 add
             </button>
           </div>

@@ -1,15 +1,15 @@
 import {memo, useContext, useLayoutEffect, useRef} from 'react'
-import { Context } from '../Main'
 import createShadow from '../helpers/createShadow';
+import { Context } from '../helpers/context';
 
 function Theme() {
- const {con,change} = useContext(Context);
+ const {theme,change} = useContext(Context);
  const ref = useRef();
 
  useLayoutEffect(()=>{
-  ref.current.style.color = con;
-  ref.current.style.textShadow = createShadow(con);
- },[con]);
+  ref.current.style.color = theme;
+  ref.current.style.textShadow = createShadow(theme);
+ },[theme]);
   return (
       <div className='set'>
         <div className='theme'>
@@ -17,7 +17,7 @@ function Theme() {
         </div>
         <div ref={ref}
          className='current'>
-            {con}
+            {theme}
         </div>
         <div className='chanDiv'>
           <button className='chanBut'

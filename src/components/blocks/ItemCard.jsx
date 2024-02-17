@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useRef, useState} from 'react'
+import React, { useLayoutEffect, useRef } from 'react'
 import { useDispatch } from 'react-redux';
 import { chanMove, chanText, del } from '../../store/slice';
 
