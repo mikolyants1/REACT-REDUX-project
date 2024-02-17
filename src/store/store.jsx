@@ -6,11 +6,14 @@ const config={
     key:'root2',
     storage
 }
-const combine=combineReducers({
+const combine = combineReducers({
     task:slice
-})
-const persist=persistReducer(config,combine)
-export const store=configureStore({
+});
+
+const persist = persistReducer(config,combine);
+
+export const store = configureStore({
     reducer:persist
-}) 
-export const catched=persistStore(store)
+});
+
+export const catched = persistStore(store);

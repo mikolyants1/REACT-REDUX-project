@@ -1,4 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit'
+
 const initialState={
     name:'',
     mass:[],
@@ -9,28 +10,47 @@ const slice=createSlice({
     initialState,
     reducers:{
         add:(state,action)=>{
-          const {name,x,y}=action.payload
-          state.mass=[
-            ...state.mass,
-            {name:name,x:x,y:y}
-          ]
+          state.mass = [ 
+            ...state.mass, action.payload
+          ];
         },
-        chan:(state,action)=>{
-          const {name,x,y,i}=action.payload
-          const left=state.mass.slice(0,i)
-          const right=state.mass.slice(i+1)
-          const obj={name:name,x:x,y:y}
-          state.mass=[...left,obj,...right]
+        chanCoord:(state,action)=>{
+          const {top,left,i} = action.payload;
+          state.mass = state.mass.map((item,idx)=>{
+            if (i == idx){
+             item.top = top;
+             item.left = left;
+            } 
+            return item
+          });
+        },
+        chanText:(state,action)=>{
+          const {text,i} = action.payload;
+          state.mass = state.mass.map((item,idx)=>{
+            if (i == idx){
+             item.name = text;
+            } 
+            return item
+          });
+        },
+        chanMove:(state,action)=>{
+          const {isMoved,i} = action.payload;
+          state.mass = state.mass.map((item,idx)=>{
+            if (i == idx){
+             item.isMoved = isMoved;
+            } 
+            return item
+          });
         },
         del:(state,{payload})=>{
-          const newMass=state.mass
-          .filter((_,i)=>i!==payload)
-          state.mass=[...newMass]
+          const newMass = state.mass
+          .filter((_,i)=> i !== payload);
+          state.mass = [ ...newMass ];
         },
         set:(state,action)=>{
-          state.theme=action.payload
+          state.theme = action.payload;
         }
     }
-})
-export const {add,chan,del,set}=slice.actions
+});
+export const {add,chanMove,chanCoord,chanText,del,set} = slice.actions;
 export default slice.reducer
