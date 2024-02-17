@@ -6,13 +6,14 @@ function AddItem(){
   const dispatch = useDispatch();
   const [todo,setTodo] = useState("");
   const ref = useRef();
-
   const setNewTodo = () => {
     const {style} = document.querySelector('.desk1');
     dispatch(add({
       name:todo,
-      left:300,
+      left:200,
       top:style.height,
+      width:100,
+      height:10,
       isMoved:false
     }));
     ref.current.value = "";

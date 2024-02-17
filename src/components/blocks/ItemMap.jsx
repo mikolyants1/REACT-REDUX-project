@@ -18,7 +18,7 @@ function ItemMap() {
       />
       ))}
   </div>
-  )
-}
+  );
+};
 
-export default memo(ItemMap)
+export default memo(ItemMap);

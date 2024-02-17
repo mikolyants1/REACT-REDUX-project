@@ -33,6 +33,16 @@ const slice=createSlice({
             return item
           });
         },
+        chanLoc:(state,action)=>{
+          const {width,height,i} = action.payload;
+          state.mass = state.mass.map((item,idx)=>{
+            if (i == idx){
+             item.width = width;
+             item.height = height;
+            } 
+            return item
+          });
+        },
         chanMove:(state,action)=>{
           const {isMoved,i} = action.payload;
           state.mass = state.mass.map((item,idx)=>{
@@ -52,5 +62,5 @@ const slice=createSlice({
         }
     }
 });
-export const {add,chanMove,chanCoord,chanText,del,set} = slice.actions;
+export const {add,chanMove,chanCoord,chanText,del,set,chanLoc} = slice.actions;
 export default slice.reducer

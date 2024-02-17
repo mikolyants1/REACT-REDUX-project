@@ -10,11 +10,10 @@ function App() {
   const dispatch = useDispatch();
 
   const mouse = (e) => {
-    const n = document.querySelectorAll('span');
     mass.forEach((item,i)=>{
       if (item.isMoved) {
-       const left = e.pageX-n[i].offsetWidth*3;
-       const top = e.pageY-n[i].offsetHeight;
+       const left = e.pageX - item.width;
+       const top = e.pageY - item.height;
        dispatch(chanCoord({left,top,i}));
       };
     });
